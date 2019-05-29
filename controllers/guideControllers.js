@@ -35,6 +35,22 @@ class GuideControllers {
       console.log(err)
     }
   }
+
+  async deleteGuide(req, res, next) {
+    const { _id: userId } = req.session.currentUser;
+    const { id: guideId } = req.params;
+    try {
+      const { creator } = await Guide.findById(guideId);
+      if(creator == userId) {
+        await Guide.findByIdAndDelete(guideId);
+        return res.status(200).json({message: 'guide deleted'})
+      }
+      return res.json({message: 'You cannot delete the guide'})
+    }
+    catch(err) {
+      console.log(err)
+    }
+  }
 }
 
 const guideControllers = new GuideControllers;
