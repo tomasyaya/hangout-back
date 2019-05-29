@@ -3,9 +3,7 @@ const router = express.Router();
 const guideControllers = require('../controllers/guideControllers');
 const { isLoggedIn } = require('../helpers/middlewares');
 
-router.get('/', (req, res, next) => {
-  console.log('hit the route')
-})
+router.get('/', isLoggedIn(), guideControllers.getGuides)
 
 router.post('/', isLoggedIn(), guideControllers.createGuide)
 
